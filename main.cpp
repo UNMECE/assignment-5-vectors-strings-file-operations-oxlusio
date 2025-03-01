@@ -1,16 +1,16 @@
 #include <iostream>
-#include "pixel.h"
 #include <fstream>
 #include <sstream>
 #include <string>
 #include <vector>
 #include <cstdlib>
+#include "pixel.h"
 
 // function to parse input file and populate pixel_list vector
 void read_pixels(const std::string& filename, std::vector<Pixel>& pixel_list) {
-	std::ifstream file(filename);
+	std::ifstream file(filename.c_str());
 	if (!file.is_open()) {
-		std::cer << "Error opening file: " << filename << std::endl;
+		std::cerr << "Error opening file: " << filename << std::endl;
 		exit(EXIT_FAILURE);
 	}
 
@@ -31,9 +31,9 @@ void read_pixels(const std::string& filename, std::vector<Pixel>& pixel_list) {
 		pixel.r = std::stof(token);
 		
 		std::getline(ss, token, ',');
-		pixel.g = std:stof(token);
+		pixel.g = std::stof(token);
 
-		std::getline(ss, token ',');
+		std::getline(ss, token, ',');
 		pixel.b = std::stof(token);
 
 		pixel_list.push_back(pixel);
@@ -66,15 +66,15 @@ void average_colors(std::vector<Pixel>& pixel_list) {
 void flip_vertically(std::vector<Pixel>& pixel_list) {
 	int y_max = 256;
 	for (Pixel& pixel : pixel_list){
-		pixel.y = y_max - 1 - pixel.y:
+		pixel.y = y_max - 1 - pixel.y;
 	}
 }
 
 // function to save pixel list in file
-void save_pixels(const std::string& filename; const std::vector<Pixel>& pixel_list) {
-	std::ofstream file(filename);
+void save_pixels(const std::string& filename, const std::vector<Pixel>& pixel_list) {
+	std::ofstream file(filename.c_str());
 	if (!file.is_open()) {
-		std::cer << "Error opening file: " << filename << std::endl;
+		std::cerr << "Error opening file: " << filename << std::endl;
 		exit(EXIT_FAILURE);
 	}
 
@@ -88,10 +88,10 @@ void save_pixels(const std::string& filename; const std::vector<Pixel>& pixel_li
 int main(int argc, char* argv[]) {
 	if (argc != 2) {
 		std::cerr << "Usage: " << argv[0] << <input_file> << std::endl;
-		return EXIT_FAILURE:
+		return EXIT_FAILURE;
 	}
 
-	std::string input_file = argc[1];
+	std::string input_file = argv[1];
 	std::vector<Pixel> pixel_list;
 
 	// read pixels from file
@@ -103,6 +103,6 @@ int main(int argc, char* argv[]) {
 	// save flipped pixels to file
 	save_pixels("flipped.dat", pixel_list);
 
-	return EXIT_SUCCESS:
+	return EXIT_SUCCESS;
 }
 
